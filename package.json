@@ -1,0 +1,16 @@
+{
+  "name": "sem5",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp -r dist/ ../server/",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.4.3"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2",
+    "socket.io-client": "^4.1.3"
+  }
+}
