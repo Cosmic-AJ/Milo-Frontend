@@ -1,5 +1,9 @@
 import { Scene } from "phaser";
 import { baseURL } from "../constants";
+import {
+  emitInit,
+  registerMovementListeners,
+} from "../handlers/movementHandler";
 import { socket, state } from "../main";
 import GamePopup from "../ui/Popup/GamePopup";
 import ShopPopup from "../ui/Popup/ShopPopup";
@@ -85,9 +89,13 @@ class Home extends Scene {
     });
 
     generateAnims(this.player.anims, this.avatarName);
+    emitInit(this.player.x, this.player.y).then((currentPlayers) => {
+      this.currentPlayers = currentPlayers;
+      this.addPlayersToScene();
+    });
+    registerMovementListeners(this);
 
-    //SCOPE FOR REFACTOR
-    socket.emit(
+    /*socket.emit(
       "init",
       {
         socId: socket.id,
@@ -102,27 +110,28 @@ class Home extends Scene {
       }
     );
 
-    socket.on("new-player", (player) => {
-      this.currentPlayers[player.socId] = player;
-      this.otherSprites[player.socId] = this.addPlayer(player);
-      console.log(this.otherSprites);
-    });
+    // socket.on("new-player", (player) => {
+    //   this.currentPlayers[player.socId] = player;
+    //   this.otherSprites[player.socId] = this.addPlayer(player);
+    //   console.log(this.otherSprites);
+    // });
 
-    socket.on("move-player", (data) => {
-      this.needsToUpdate[data.socId] = data.key;
-    });
+    // socket.on("move-player", (data) => {
+    //   this.needsToUpdate[data.socId] = data.key;
+    // });
 
-    socket.on("stop-player", (data) => {
-      this.needsToUpdate[data.socId] = null;
-      const sprite = this.otherSprites[data.socId];
-      sprite.setPosition(data.x, data.y);
-    });
+    // socket.on("stop-player", (data) => {
+    //   this.needsToUpdate[data.socId] = null;
+    //   const sprite = this.otherSprites[data.socId];
+    //   sprite.setPosition(data.x, data.y);
+    // });
 
-    socket.on("remove-player", (socketId) => {
-      delete this.currentPlayers[socketId];
-      this.otherSprites[socketId].destroy();
-      delete this.otherSprites[socketId];
-    });
+    // socket.on("remove-player", (socketId) => {
+    //   delete this.currentPlayers[socketId];
+    //   this.otherSprites[socketId].destroy();
+    //   delete this.otherSprites[socketId];
+    // });
+    */
 
     //Initialise camera
     const camera = this.cameras.main;
@@ -135,6 +144,7 @@ class Home extends Scene {
   update(time, delta) {
     const speed = 175;
     const prevVelocity = this.player.body.velocity.clone();
+    //possible upgrade
     if (
       this.keyDownSent === "ready" &&
       (this.cursors.down.isDown ||

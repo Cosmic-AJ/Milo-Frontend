@@ -5,7 +5,7 @@ import handleLogin from "../handlers/loginHandler";
 import handleSignup from "../handlers/signupHandler";
 import { decideFace } from "../utils/decideFace";
 import { generateAnims } from "../utils/generateAnims";
-import { setState, socket, state } from "../main";
+import { setState, state } from "../main";
 import { avatarList } from "../utils/avatarList";
 
 class Home1 extends Scene {
