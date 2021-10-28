@@ -1,0 +1,68 @@
+const list = [
+  {
+    id: 0,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 1,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 2,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 3,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 4,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 5,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 6,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+  {
+    id: 7,
+    name: "Room Pass",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos corporis nesciunt eligendi maxime dolorum.",
+    img: null,
+    price: 1.25,
+    quantity: 30,
+  },
+];
+
+export default list;
