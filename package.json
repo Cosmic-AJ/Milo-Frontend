@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -r dist/ ../server/ && cp -r ../server/.cache/* ../server/dist/",
+    "build": "vite build && mv dist/index.html dist/project.html && cp -r dist/ ../server/ && cp -r ../server/.cache/* ../server/dist/",
     "serve": "vite preview"
   },
   "dependencies": {

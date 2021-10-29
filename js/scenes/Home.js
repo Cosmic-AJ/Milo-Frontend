@@ -37,7 +37,7 @@ class Home extends Scene {
 
     // Creating map layers and assigning them to variables
     const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
-    const worldLayer = map.createLayer("World", tileset, 0, 0);
+    this.worldLayer = map.createLayer("World", tileset, 0, 0);
     const ticTacToe = map.createLayer("tictactoe", tileset, 0, 0);
     const mathGame = map.createLayer("mathgame", tileset, 0, 0);
     const dinosaurGame = map.createLayer("dinosaurgame", tileset, 0, 0);
@@ -46,7 +46,7 @@ class Home extends Scene {
     const interactive = map.createLayer("interactive", tileset, 0, 0);
 
     // Setting any collision properties for the environment
-    worldLayer.setCollisionByProperty({ collides: true });
+    this.worldLayer.setCollisionByProperty({ collides: true });
     interactive.setCollisionByProperty({ collides: true });
     ticTacToe.setCollisionByProperty({ collides: true });
     mathGame.setCollisionByProperty({ collides: true });
@@ -67,7 +67,8 @@ class Home extends Scene {
       .setSize(20, 30)
       .setOffset(0, 0);
     this.player.scale = 1.2;
-    this.physics.add.collider(this.player, worldLayer);
+    this.player.setPushable(false);
+    this.physics.add.collider(this.player, this.worldLayer);
     this.physics.add.collider(this.player, ticTacToe, () => {
       this.gamePopup.setGameType("tictactoe");
       this.gamePopup.show();
@@ -95,85 +96,71 @@ class Home extends Scene {
     });
     registerMovementListeners(this);
 
-    /*socket.emit(
-      "init",
-      {
-        socId: socket.id,
-        name: state.name,
-        avatar: state.avatar,
-        x: this.player.x,
-        y: this.player.y,
-      },
-      (currentPlayers) => {
-        this.currentPlayers = currentPlayers;
-        this.addPlayersToScene();
-      }
-    );
-
-    // socket.on("new-player", (player) => {
-    //   this.currentPlayers[player.socId] = player;
-    //   this.otherSprites[player.socId] = this.addPlayer(player);
-    //   console.log(this.otherSprites);
-    // });
-
-    // socket.on("move-player", (data) => {
-    //   this.needsToUpdate[data.socId] = data.key;
-    // });
-
-    // socket.on("stop-player", (data) => {
-    //   this.needsToUpdate[data.socId] = null;
-    //   const sprite = this.otherSprites[data.socId];
-    //   sprite.setPosition(data.x, data.y);
-    // });
-
-    // socket.on("remove-player", (socketId) => {
-    //   delete this.currentPlayers[socketId];
-    //   this.otherSprites[socketId].destroy();
-    //   delete this.otherSprites[socketId];
-    // });
-    */
-
     //Initialise camera
     const camera = this.cameras.main;
     camera.startFollow(this.player);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.keyDownSent = "ready";
+    this.keyDownSent = {
+      vertical: "ready",
+      horizontal: "ready",
+    };
   }
 
   update(time, delta) {
     const speed = 175;
     const prevVelocity = this.player.body.velocity.clone();
     //possible upgrade
+
+    // Sending vertical movement key stroke
     if (
-      this.keyDownSent === "ready" &&
-      (this.cursors.down.isDown ||
-        this.cursors.up.isDown ||
-        this.cursors.left.isDown ||
-        this.cursors.right.isDown)
+      this.keyDownSent.vertical === "ready" &&
+      (this.cursors.down.isDown || this.cursors.up.isDown)
     ) {
       socket.emit("player-key-down", {
         socId: socket.id,
-        key: this.getKeyPress(this.cursors),
+        key: this.getKeyPress(this.cursors, "vertical"),
       });
-      this.keyDownSent = "sent";
+      this.keyDownSent.vertical = "sent";
     }
 
     if (
-      this.keyDownSent === "sent" &&
+      this.keyDownSent.horizontal === "ready" &&
+      (this.cursors.left.isDown || this.cursors.right.isDown)
+    ) {
+      socket.emit("player-key-down", {
+        socId: socket.id,
+        key: this.getKeyPress(this.cursors, "horizontal"),
+      });
+      this.keyDownSent.horizontal = "sent";
+    }
+
+    if (
+      this.keyDownSent.vertical === "sent" &&
       this.cursors.down.isUp &&
-      this.cursors.up.isUp &&
+      this.cursors.up.isUp
+    ) {
+      socket.emit("player-key-up", {
+        socId: socket.id,
+        movement: "vertical",
+        x: this.player.x,
+        y: this.player.y,
+      });
+      this.keyDownSent.vertical = "ready";
+    }
+    if (
+      this.keyDownSent.horizontal === "sent" &&
       this.cursors.left.isUp &&
       this.cursors.right.isUp
     ) {
       socket.emit("player-key-up", {
         socId: socket.id,
+        movement: "horizontal",
         x: this.player.x,
         y: this.player.y,
       });
-      this.keyDownSent = "ready";
+      this.keyDownSent.horizontal = "ready";
     }
-
     // Stop any previous movement from the last frame
     this.player.body.setVelocity(0);
 
@@ -236,21 +223,30 @@ class Home extends Scene {
       player.avatar,
       "left-walk.000"
     );
+    sprite.setPushable(false);
+    this.physics.add.collider(this.player, sprite, (player1, player2) => {
+      console.log("Collision occured with " + player2.socId);
+    });
+    this.physics.add.collider(sprite, this.worldLayer);
     sprite.socId = player.socId;
     sprite.scale = 1.2;
     generateAnims(sprite.anims, player.avatar);
     return sprite;
   }
 
-  getKeyPress(cursors) {
-    if (cursors.up.isDown) {
-      return 1;
-    } else if (cursors.right.isDown) {
-      return 2;
-    } else if (cursors.down.isDown) {
-      return 3;
-    } else if (cursors.left.isDown) {
-      return 4;
+  getKeyPress(cursors, direction) {
+    if (direction === "vertical") {
+      if (cursors.up.isDown) {
+        return 1;
+      } else if (cursors.down.isDown) {
+        return 3;
+      }
+    } else {
+      if (cursors.right.isDown) {
+        return 2;
+      } else if (cursors.left.isDown) {
+        return 4;
+      }
     }
   }
 
@@ -260,21 +256,29 @@ class Home extends Scene {
       const sprite = this.otherSprites[socId];
       const avatar = this.currentPlayers[socId].avatar;
       const prevVelocity = sprite.body.velocity.clone();
-      const key = this.needsToUpdate[socId]; //Return 1 | 2 | 3 | 4
+      const key = this.needsToUpdate[socId];
 
       sprite.body.setVelocity(0);
-      if (key) {
-        if (key === 4) {
+      if (key.horizontal || key.vertical) {
+        if (key.horizontal === 4) {
           sprite.body.setVelocityX(-speed);
-          sprite.anims.play("left-walk", true);
-        } else if (key === 2) {
+        } else if (key.horizontal === 2) {
           sprite.body.setVelocityX(speed);
-          sprite.anims.play("right-walk", true);
-        } else if (key === 1) {
+        }
+        if (key.vertical === 1) {
           sprite.body.setVelocityY(-speed);
-          sprite.anims.play("back-walk", true);
-        } else if (key === 3) {
+        } else if (key.vertical === 3) {
           sprite.body.setVelocityY(speed);
+        }
+        //playing animation
+        if (key.horizontal === 4) {
+          sprite.anims.play("left-walk", true);
+        } else if (key.horizontal === 2) {
+          sprite.anims.play("right-walk", true);
+        }
+        if (key.vertical === 1) {
+          sprite.anims.play("back-walk", true);
+        } else if (key.vertical === 3) {
           sprite.anims.play("front-walk", true);
         }
         sprite.body.velocity.normalize().scale(speed);

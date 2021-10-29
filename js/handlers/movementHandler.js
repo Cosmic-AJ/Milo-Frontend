@@ -25,11 +25,17 @@ export const registerMovementListeners = (game) => {
   });
 
   socket.on("move-player", (data) => {
-    game.needsToUpdate[data.socId] = data.key;
+    game.needsToUpdate[data.socId] = {
+      horizontal: data.horizontal, // int (2 | 4)
+      vertical: data.vertical, // int (1 | 3)
+    };
   });
 
   socket.on("stop-player", (data) => {
-    game.needsToUpdate[data.socId] = null;
+    const update = game.needsToUpdate[data.socId];
+    if (update) {
+      update[data.movement] = null;
+    }
     const sprite = game.otherSprites[data.socId];
     sprite.setPosition(data.x, data.y);
   });
