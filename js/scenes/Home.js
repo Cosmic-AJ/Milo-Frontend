@@ -5,6 +5,7 @@ import {
   registerMovementListeners,
 } from "../handlers/movementHandler";
 import { socket, state } from "../main";
+import CommDialog from "../ui/creatorFunctions/createCommDialog";
 import GamePopup from "../ui/Popup/GamePopup";
 import ShopPopup from "../ui/Popup/ShopPopup";
 import { generateAnims } from "../utils/generateAnims";
@@ -27,6 +28,7 @@ class Home extends Scene {
   }
 
   create() {
+    this.commDialog = new CommDialog();
     this.shop = new ShopPopup();
     this.gamePopup = new GamePopup();
     //Initialisation of loaded tilesets and json files
@@ -64,8 +66,8 @@ class Home extends Scene {
     this.player = this.physics.add
       .sprite(spawnPoint.x, spawnPoint.y, this.avatarName, "front-walk.000")
       .setBodySize(32, 20, true)
-      .setSize(20, 30)
-      .setOffset(0, 0);
+      .setSize(20, 32)
+      .setOffset(7, 0);
     this.player.scale = 1.2;
     this.player.setPushable(false);
     this.physics.add.collider(this.player, this.worldLayer);
@@ -225,7 +227,14 @@ class Home extends Scene {
     );
     sprite.setPushable(false);
     this.physics.add.collider(this.player, sprite, (player1, player2) => {
-      console.log("Collision occured with " + player2.socId);
+      let selfApproached = true;
+      if (this.player.x === player1.x) {
+        selfApproached = false;
+      }
+      console.log(selfApproached);
+      if (selfApproached) {
+        this.commDialog.createDialog(player);
+      }
     });
     this.physics.add.collider(sprite, this.worldLayer);
     sprite.socId = player.socId;

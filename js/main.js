@@ -15,8 +15,6 @@ export const socket = io("http://localhost:5000/");
 socket.on("connect", () => {
   console.log("Connected to the server...");
 });
-// const gamePopup = new GamePopup("tictactoe");
-// gamePopup.show();
 
 const config = {
   type: Phaser.AUTO,

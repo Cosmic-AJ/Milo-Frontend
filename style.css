@@ -22,8 +22,22 @@
 }
 
 body {
-  background-color: rgba(30, 135, 255, 0.137);
+  background-color: var(--bg-accent);
 }
+
+.nav_menu {
+  width: 80%;
+  background-color: var(--bg-accent);
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.nav_menu > img {
+  margin-left: 1rem;
+  transform: scale(0.8);
+}
+
 #app {
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
@@ -485,4 +499,49 @@ input[type="button"]:hover {
 .game-frame {
   width: 100%;
   height: 80vh;
+}
+
+.stats-container {
+  position: absolute;
+  right: 5%;
+  padding: 1rem 1.5rem 1.5rem;
+  border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: var(--bg);
+  align-items: flex-start;
+}
+
+.stats-container > .misc-details {
+  display: flex;
+  gap: 3rem;
+}
+
+.stats-container > .misc-details > div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font: 1rem;
+  font-weight: bold;
+}
+
+.stats-container > .exp-details {
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+.exp-meter-container {
+  width: 100%;
+  height: 1rem;
+  border-radius: 20px;
+  background-color: var(--text);
+  margin-top: 0.75rem;
+  border: solid 3px var(--highlight-yellow);
+}
+
+.exp-meter-container > .exp-meter-fill {
+  background: var(--success-green);
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
 }

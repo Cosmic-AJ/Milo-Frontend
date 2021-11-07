@@ -7,6 +7,7 @@ import { decideFace } from "../utils/decideFace";
 import { generateAnims } from "../utils/generateAnims";
 import { setState, state } from "../main";
 import { avatarList } from "../utils/avatarList";
+import Stats from "../ui/Alerts/Stats";
 
 class Home1 extends Scene {
   constructor() {
@@ -57,6 +58,7 @@ class Home1 extends Scene {
         this.updatePlayer();
       }
     );
+    this.stats = new Stats(state);
   }
 
   create() {
@@ -95,8 +97,8 @@ class Home1 extends Scene {
     this.player = this.physics.add
       .sprite(spawnPoint.x, spawnPoint.y, this.avatarName, "front-walk.000")
       .setBodySize(32, 20, true)
-      .setSize(20, 30)
-      .setOffset(0, 0);
+      .setSize(20, 32)
+      .setOffset(7, 0);
     this.player.scale = 1.3;
 
     this.physics.add.collider(this.player, worldLayer);
@@ -107,8 +109,8 @@ class Home1 extends Scene {
         "bald_blue_boy",
         "right-walk.000"
       )
-      .setSize(20, 30)
-      .setOffset(0, 0);
+      .setSize(20, 32)
+      .setOffset(7, 0);
     this.loginSprite.scale = 1.3;
     this.loginSprite.body.immovable = true;
 

@@ -84,14 +84,14 @@ export class Initial extends Scene {
     this.player = this.physics.add
       .sprite(spawnPoint.x, spawnPoint.y, this.avatarName, "front-walk.000")
       .setBodySize(32, 20, true)
-      .setSize(20, 30)
-      .setOffset(0, 0);
+      .setSize(20, 32)
+      .setOffset(7, 0);
 
     // Adding a sprite character (Our main player)
     this.loginSprite = this.physics.add
       .sprite(300, 50, "bald_blue_boy", "front-walk.000")
       .setSize(20, 30)
-      .setOffset(0, 0);
+      .setOffset(0, 24);
     this.loginSprite.body.immovable = true;
 
     this.physics.add.collider(this.player, water);
