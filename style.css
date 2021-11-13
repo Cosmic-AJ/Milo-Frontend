@@ -268,8 +268,10 @@ input[type="button"]:hover {
   right: 1rem;
 }
 
-.response__input-box {
+.response__input-box,
+.chat__input-form > input {
   border: none;
+  border-radius: var(--border-radius);
   background: var(--bg-accent);
   padding: 0.25rem;
   color: var(--text);
@@ -544,4 +546,84 @@ input[type="button"]:hover {
   height: 100%;
   width: 0;
   border-radius: inherit;
+}
+
+.chat-container {
+  width: 100%;
+}
+
+/* Text Chat popup */
+.chats__container > h2 {
+  text-align: left;
+}
+
+.chat__window {
+  height: 45vh;
+  overflow-y: scroll;
+  padding: 1rem;
+}
+
+.float-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+
+.chat__input-form {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 95%;
+}
+.chat__input-form > input {
+  width: 80%;
+  padding: 0.7rem;
+  font-size: 1rem;
+}
+
+.chat__input-form > button {
+  background: var(--highlight-yellow);
+}
+.chat__input-form > button > span {
+  color: var(--bg);
+  font-size: 1rem;
+}
+.chat__input-form > button > img {
+  transform: rotate(0deg) scale(1.3);
+  margin-left: 5px;
+}
+.chat__input-form > button:hover {
+  background: var(--highlight-yellow);
+}
+.chat__input-form > button:disabled {
+  background: var(--bg-highlight);
+}
+
+.chat_message {
+  border-radius: var(--border-radius);
+  background: var(--bg-accent);
+  padding: 0.7rem 1.4rem;
+  margin: 0.7rem 0;
+  position: relative;
+  width: fit-content;
+  max-width: 60%;
+}
+
+.chat_message.from-me {
+  margin-left: auto;
+}
+
+.chat_message > span:first-child {
+  display: inline-block;
+  text-align: left;
+}
+
+.chat_message > span:last-child {
+  margin-left: 1rem;
+  position: relative;
+  text-align: right;
+  font-size: 0.8rem;
+  opacity: 0.6;
 }

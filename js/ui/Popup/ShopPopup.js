@@ -1,13 +1,11 @@
 import axios from "axios";
-import { state } from "../../main";
-import Snackbar from "../Alerts/Snackbar";
+import { state, snackbar } from "../../main";
 import QuantityController from "../creatorFunctions/createQuantityControl";
 import Popup from "./Popup";
 
 export default class ShopPopup extends Popup {
   constructor() {
     super();
-    this.snackbar = new Snackbar();
   }
 
   show() {
@@ -107,13 +105,13 @@ export default class ShopPopup extends Popup {
           }
         )
         .then(({ data }) => {
-          this.snackbar.configure(data.message, "success");
-          this.snackbar.show();
+          snackbar.configure(data.message, "success");
+          snackbar.show();
         })
         .catch((e) => {
           console.log(e);
-          this.snackbar.configure(e.response.data.error, "error");
-          this.snackbar.show();
+          snackbar.configure(e.response.data.error, "error");
+          snackbar.show();
         });
     });
     detailsDiv.append(

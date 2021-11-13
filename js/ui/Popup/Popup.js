@@ -28,6 +28,7 @@ export default class Popup {
   }
   close() {
     this.isOpen = false;
+    this.onClose();
     this.container.classList.add("closeState");
     setTimeout(() => this.remove(), 300);
   }

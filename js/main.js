@@ -3,6 +3,8 @@ import "phaser";
 import Home from "./scenes/Home";
 import io from "socket.io-client";
 import Home1 from "./scenes/Home1";
+import Snackbar from "./ui/Alerts/Snackbar";
+import TextChat from "./ui/Popup/TextChatPopup";
 
 export let state = {};
 
@@ -11,7 +13,7 @@ export const setState = (update) => {
 };
 
 export const socket = io("http://localhost:5000/");
-
+export const snackbar = new Snackbar();
 socket.on("connect", () => {
   console.log("Connected to the server...");
 });

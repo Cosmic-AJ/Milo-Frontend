@@ -1,15 +1,13 @@
 import axios from "axios";
 import InputDialog from "../ui/Dialogs/InputDialog";
-import Snackbar from "../ui/Alerts/Snackbar";
 import { loginDialog } from "../ui/dialogStructures/authDialogs";
-import { setState } from "../main";
+import { setState, snackbar } from "../main";
 import { baseURL } from "../constants";
 
 //State
 const userData = {};
 
 const handleSubmit = (dialog, game) => {
-  const snackbar = new Snackbar();
   axios
     .post("https://milo-back-end.herokuapp.com/login", userData)
     .then((res) => {

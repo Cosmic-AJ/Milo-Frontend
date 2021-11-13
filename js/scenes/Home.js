@@ -1,5 +1,6 @@
 import { Scene } from "phaser";
 import { baseURL } from "../constants";
+import { registerChatHandlers } from "../handlers/chatHandler";
 import {
   emitInit,
   registerMovementListeners,
@@ -97,6 +98,7 @@ class Home extends Scene {
       this.addPlayersToScene();
     });
     registerMovementListeners(this);
+    registerChatHandlers();
 
     //Initialise camera
     const camera = this.cameras.main;
@@ -112,7 +114,6 @@ class Home extends Scene {
   update(time, delta) {
     const speed = 175;
     const prevVelocity = this.player.body.velocity.clone();
-    //possible upgrade
 
     // Sending vertical movement key stroke
     if (
@@ -227,14 +228,7 @@ class Home extends Scene {
     );
     sprite.setPushable(false);
     this.physics.add.collider(this.player, sprite, (player1, player2) => {
-      let selfApproached = true;
-      if (this.player.x === player1.x) {
-        selfApproached = false;
-      }
-      console.log(selfApproached);
-      if (selfApproached) {
-        this.commDialog.createDialog(player);
-      }
+      this.commDialog.createDialog(player);
     });
     this.physics.add.collider(sprite, this.worldLayer);
     sprite.socId = player.socId;

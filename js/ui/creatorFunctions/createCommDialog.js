@@ -4,6 +4,7 @@ import micIcon from "../../../icons/microphone.png";
 import chatIcon from "../../../icons/chat.png";
 import cancelIcon from "../../../icons/cross.png";
 import { baseURL } from "../../constants";
+import { initiateChat } from "../../handlers/chatHandler";
 /*  
 @params
 player {
@@ -13,26 +14,10 @@ player {
 }
 
 */
-const initiateChat = (type, toSocId) => {
-  socket.emit("init-chat", {
-    type,
-    fromSocId: socket.id,
-    toSocId,
-  });
-};
-
 export default class CommDialog {
   constructor() {
     this.playerApproached = null;
   }
-
-  initiateChat = (type, toSocId) => {
-    socket.emit("init-chat", {
-      type,
-      fromSocId: socket.id,
-      toSocId,
-    });
-  };
 
   setPlayerApproached(player) {
     if (player !== this.playerApproached) this.playerApproached = player;
@@ -43,26 +28,30 @@ export default class CommDialog {
     if (!this.dialog) {
       this.dialog = new Dialog(
         {
-          text: `Choose a mode of communication with ${this.playerApproached.username}`,
+          text: `Choose a mode of communication with ${this.playerApproached.name}`,
           inputType: "icon-buttons",
           buttons: [
             {
               text: "Audio",
               icon: micIcon,
               onClickFn: () =>
-                this.initiateChat("audio", this.playerApproached.socId),
+                initiateChat("audio", this.playerApproached.socId, this.dialog),
             },
             {
               text: "Chat",
               icon: chatIcon,
               onClickFn: () =>
-                initiateChat("text", this.playerApproached.socId),
+                initiateChat("text", this.playerApproached.socId, this.dialog),
             },
             {
               text: "Cancel",
               icon: cancelIcon,
               onClickFn: () => {
-                //Close the dialog
+                initiateChat(
+                  "cancel",
+                  this.playerApproached.socId,
+                  this.dialog
+                );
               },
             },
           ],
