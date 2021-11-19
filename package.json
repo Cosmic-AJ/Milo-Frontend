@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "netdev": "vite --host",
     "build": "vite build && mv dist/index.html dist/project.html && cp -r dist/ ../server/ && cp -r ../server/.cache/* ../server/dist/",
     "serve": "vite preview"
   },

@@ -156,7 +156,8 @@ input[type="button"]:hover {
   position: static;
 }
 
-.icon-button {
+.icon-button,
+.audio-controls > button {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -167,7 +168,8 @@ input[type="button"]:hover {
   border-radius: var(--border-radius);
 }
 
-.icon-button:hover {
+.icon-button:hover,
+.audio-controls > button:hover {
   background: var(--bg-accent);
 }
 
@@ -626,4 +628,57 @@ input[type="button"]:hover {
   text-align: right;
   font-size: 0.8rem;
   opacity: 0.6;
+}
+
+.participant-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.participant {
+  display: inline-block;
+  border-radius: var(--border-radius);
+  padding: 2.5rem 2.5rem 1rem;
+  background: var(--bg-accent);
+  margin: 1rem;
+  position: relative;
+}
+
+.participant > img {
+  width: 100%;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.participant > span {
+  display: flex;
+  align-items: center;
+}
+.participant .mute-icon-div {
+  padding: 0.3rem;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+
+.participant .mute-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.mute-icon {
+  display: inline-block;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  width: 24px;
+  height: 24px;
 }

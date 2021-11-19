@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import Home1 from "./scenes/Home1";
 import Snackbar from "./ui/Alerts/Snackbar";
 import TextChat from "./ui/Popup/TextChatPopup";
+import AudioChat from "./ui/Popup/AudioChatPopup";
 
 export let state = {};
 
@@ -12,7 +13,7 @@ export const setState = (update) => {
   state = update;
 };
 
-export const socket = io("http://localhost:5000/");
+export const socket = io("http://192.168.31.132:5000/");
 export const snackbar = new Snackbar();
 socket.on("connect", () => {
   console.log("Connected to the server...");
@@ -34,8 +35,14 @@ const config = {
   scene: Home1,
 };
 
-const game = new Phaser.Game(config);
-game.scene.add("Home", Home);
+const audioPopup = new AudioChat("abc", {
+  username: "sandeep",
+  avatar: "cap_blue_boy",
+});
+audioPopup.show();
+
+// const game = new Phaser.Game(config);
+// game.scene.add("Home", Home);
 
 /*
 let cursors;so

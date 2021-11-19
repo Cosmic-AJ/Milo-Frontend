@@ -23,17 +23,17 @@ class TextChat extends Popup {
     this.sender = sender;
   }
   show() {
-    if (!this.isOpen) {
-      this.makeDOMElements();
-      this.chatContainer = document.createElement("div");
-      this.chatContainer.className = "chat-container";
-      const chatWindowWrapper = this.createChatWindow();
-      const chatForm = this.createFormInput();
+    if (this.isOpen) return;
 
-      this.chatContainer.append(chatWindowWrapper, chatForm);
-      this.populatePopup(this.chatContainer);
-      registerNewMessageListener(this);
-    }
+    this.makeDOMElements();
+    this.chatContainer = document.createElement("div");
+    this.chatContainer.className = "chat-container";
+    const chatWindowWrapper = this.createChatWindow();
+    const chatForm = this.createFormInput();
+
+    this.chatContainer.append(chatWindowWrapper, chatForm);
+    this.populatePopup(this.chatContainer);
+    registerNewMessageListener(this);
   }
 
   createChatWindow() {

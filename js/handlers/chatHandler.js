@@ -14,7 +14,6 @@ export const registerChatHandlers = () => {
     );
     snackbar.show();
     if (data.type === "text") {
-      console.log("Opening Chat popup");
       const chatPopup = new TextChat(roomName, {
         name: "Sandeep",
       });
