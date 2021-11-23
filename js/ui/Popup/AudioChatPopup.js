@@ -42,11 +42,13 @@ class Participant {
 
   mute() {
     this.isMute = true;
+    this.renderSpeaking(false);
     this.renderMuteIndicator();
   }
 
   unmute() {
     this.isMute = false;
+    this.renderSpeaking(true);
     this.renderMuteIndicator();
   }
 
@@ -86,10 +88,10 @@ export default class AudioChat extends Popup {
 
     this.participantContainer = this.createParticipantsDiv();
     const audioControlContainer = this.createAudioControlDiv();
-
+    this.muteButton.disabled = true;
     this.chatContainer.append(this.participantContainer, audioControlContainer);
     this.populatePopup(this.chatContainer);
-    registerAudioChatListener();
+    registerAudioChatListener(this);
     this.initialiseRecorder();
   }
 
@@ -111,32 +113,40 @@ export default class AudioChat extends Popup {
     this.muteButtonIcon = document.createElement("span");
     this.muteButtonIcon.className = "mute-icon";
     this.muteButtonIcon.style.background = `url(${muteIcon})`;
-    this.muteButton.append(this.muteButtonIcon);
+    this.muteButtonText = document.createElement("span");
+    this.muteButtonText.className = "mute-icon-text";
+    this.muteButtonText.innerText = "Unmute";
+    this.muteButton.append(this.muteButtonIcon, this.muteButtonText);
     this.muteButton.addEventListener("click", () => {
       let isMute = this.loggedInUser.isMute;
       if (isMute) {
+        socket.emit("participant-unmute", this.roomName);
         this.unmuteRecorder();
       } else {
+        socket.emit("participant-mute", this.roomName);
         this.muteRecorder();
       }
     });
 
     this.exitButton = createIconButton("Exit", exitIcon, "left");
     this.exitButton.addEventListener("click", () => {
-      console.log("exit");
+      socket.emit("chat-exit", this.roomName);
+      this.close();
     });
     controls.append(this.muteButton, this.exitButton);
     return controls;
   }
 
   muteRecorder() {
-    console.log("person is mute");
+    this.muteButtonIcon.style.background = `url(${muteIcon})`;
+    this.muteButtonText.innerText = "Unmute";
     this.loggedInUser.mute();
     this.mediaRecorder.stop();
   }
 
   unmuteRecorder() {
-    console.log("person is unmute");
+    this.muteButtonIcon.style.background = `url(${micIcon})`;
+    this.muteButtonText.innerText = "Mute";
     this.loggedInUser.unmute();
     this.mediaRecorder.start();
     setTimeout(() => {
@@ -147,7 +157,7 @@ export default class AudioChat extends Popup {
   initialiseRecorder() {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       this.mediaRecorder = new MediaRecorder(stream);
-
+      this.muteButton.disabled = false;
       //This array stores all the audio recorded
       let audioChunks = [];
 

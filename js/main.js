@@ -4,8 +4,8 @@ import Home from "./scenes/Home";
 import io from "socket.io-client";
 import Home1 from "./scenes/Home1";
 import Snackbar from "./ui/Alerts/Snackbar";
-import TextChat from "./ui/Popup/TextChatPopup";
-import AudioChat from "./ui/Popup/AudioChatPopup";
+import Leaderboard from "./ui/Popup/Leaderboard";
+import AudioChatPopup from "./ui/Popup/AudioChatPopup";
 
 export let state = {};
 
@@ -35,14 +35,16 @@ const config = {
   scene: Home1,
 };
 
-const audioPopup = new AudioChat("abc", {
-  username: "sandeep",
-  avatar: "cap_blue_boy",
-});
-audioPopup.show();
+// const audioPopup = new AudioChatPopup("abc", {
+//   username: "sandeep",
+//   avatar: "cap_blue_boy",
+// });
+// audioPopup.show();
+// const leaderboard = new Leaderboard("Dinosaur");
+// leaderboard.show();
 
-// const game = new Phaser.Game(config);
-// game.scene.add("Home", Home);
+const game = new Phaser.Game(config);
+game.scene.add("Home", Home);
 
 /*
 let cursors;so

@@ -1,11 +1,16 @@
 import { TIMEOUT } from "../constants";
-import { snackbar, socket } from "../main";
+import { snackbar, socket, state } from "../main";
+import AudioChat from "../ui/Popup/AudioChatPopup";
 import TextChat from "../ui/Popup/TextChatPopup";
 
 let responseRecieved = false;
 let roomName = "";
-export const registerChatHandlers = () => {
+export const registerChatHandlers = (game) => {
   socket.on("start-chat", (data) => {
+    const participant = data.participants.filter(
+      (player) => player.socId !== socket.id
+    )[0];
+    console.log(participant);
     responseRecieved = true;
     roomName = data.roomName;
     snackbar.configure(
@@ -15,17 +20,21 @@ export const registerChatHandlers = () => {
     snackbar.show();
     if (data.type === "text") {
       const chatPopup = new TextChat(roomName, {
-        name: "Sandeep",
+        name: participant.name,
       });
       chatPopup.show();
     } else if (data.type === "audio") {
-      console.log("Opening audio chat popup");
+      const audioPopup = new AudioChat(roomName, {
+        username: participant.name,
+        avatar: participant.avatar,
+      });
     }
   });
 
   socket.on("cancel-chat", () => {
     snackbar.configure("The other person turned down the request :/", "sad");
     snackbar.show();
+    game.commDialog.dialog.closeAlert();
   });
 };
 
@@ -33,6 +42,12 @@ export const registerNewMessageListener = (textPopup) => {
   socket.on("add-message", (message) => {
     textPopup.addMessage(message, false);
     //console.log("Adding new messsage", message);
+  });
+
+  socket.on("chat-exit", () => {
+    snackbar.configure(`${state.username} has left the chat!`, "sad");
+    snackbar.show();
+    console.log("Got a request to close chatwin");
   });
 };
 
@@ -63,7 +78,5 @@ export const sendMessage = (message, roomName) => {
 };
 
 export const terminateChat = (roomName) => {
-  socket.emit("terminate-chat", () => {
-    roomName;
-  });
+  socket.emit("chat-exit", roomName);
 };

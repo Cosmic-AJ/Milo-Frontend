@@ -98,7 +98,7 @@ class Home extends Scene {
       this.addPlayersToScene();
     });
     registerMovementListeners(this);
-    registerChatHandlers();
+    registerChatHandlers(this);
 
     //Initialise camera
     const camera = this.cameras.main;

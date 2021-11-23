@@ -58,7 +58,9 @@ class Home1 extends Scene {
         this.updatePlayer();
       }
     );
-    this.stats = new Stats(state);
+    if (localStorage.getItem("JWT")) {
+      this.stats = new Stats(state);
+    }
   }
 
   create() {
@@ -125,6 +127,9 @@ class Home1 extends Scene {
 
     this.physics.add.collider(this.player, interactive, () => {
       if (state && localStorage.getItem("JWT")) {
+        if (!this.stats) {
+          this.stats = new Stats(state);
+        }
         this.scene.start("Home");
       } else {
         console.log("Need to login or signup");
