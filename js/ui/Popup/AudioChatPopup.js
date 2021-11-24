@@ -75,7 +75,7 @@ export default class AudioChat extends Popup {
     this.roomName = roomName;
     this.sender = sender;
     this.latency = 500;
-    this.loggedInUser = new Participant("adithya", "curly_blue_girl");
+    this.loggedInUser = new Participant(state.username, state.avatar);
     this.participant = new Participant(sender.username, sender.avatar);
   }
 

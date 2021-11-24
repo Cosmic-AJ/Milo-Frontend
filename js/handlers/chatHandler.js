@@ -28,6 +28,7 @@ export const registerChatHandlers = (game) => {
         username: participant.name,
         avatar: participant.avatar,
       });
+      audioPopup.show();
     }
   });
 

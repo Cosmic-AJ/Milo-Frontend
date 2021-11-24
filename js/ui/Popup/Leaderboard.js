@@ -49,7 +49,7 @@ class Leaderboard extends Popup {
     container.className = "leaderboard_container";
     const header = document.createElement("h1");
     header.innerText = "Leaderboard";
-    /*axios
+    axios
       .post(
         "https://milo-back-end.herokuapp.com/leaderboard",
         {
@@ -67,11 +67,11 @@ class Leaderboard extends Popup {
         this.populatePopup(container);
       })
       .catch((e) => {
-        snackbar.configure("Error in retrieving leaderboard", 'error');
-      });*/
-    const playerListContainer = this.createPlayerList(this.playerList);
-    container.append(header, playerListContainer);
-    this.populatePopup(container);
+        snackbar.configure("Error in retrieving leaderboard", "error");
+      });
+    // const playerListContainer = this.createPlayerList(this.playerList);
+    // container.append(header, playerListContainer);
+    // this.populatePopup(container);
   }
 
   createPlayerList(playerList) {
@@ -105,7 +105,7 @@ class Leaderboard extends Popup {
 
   decideRankUI(rank) {
     if (this.medalMap[rank]) {
-      return `<img class="medal" src=${this.medalMap[rank]}/>`;
+      return `<img class="medal" src="${this.medalMap[rank]}"/>`;
     } else if (rank === "Rank") {
       return rank;
     } else {

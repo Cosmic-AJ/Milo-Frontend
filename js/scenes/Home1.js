@@ -5,9 +5,8 @@ import handleLogin from "../handlers/loginHandler";
 import handleSignup from "../handlers/signupHandler";
 import { decideFace } from "../utils/decideFace";
 import { generateAnims } from "../utils/generateAnims";
-import { setState, state } from "../main";
+import { setState, state, stats } from "../main";
 import { avatarList } from "../utils/avatarList";
-import Stats from "../ui/Alerts/Stats";
 
 class Home1 extends Scene {
   constructor() {
@@ -59,7 +58,7 @@ class Home1 extends Scene {
       }
     );
     if (localStorage.getItem("JWT")) {
-      this.stats = new Stats(state);
+      stats.init(state);
     }
   }
 
@@ -127,9 +126,7 @@ class Home1 extends Scene {
 
     this.physics.add.collider(this.player, interactive, () => {
       if (state && localStorage.getItem("JWT")) {
-        if (!this.stats) {
-          this.stats = new Stats(state);
-        }
+        stats.init(state);
         this.scene.start("Home");
       } else {
         console.log("Need to login or signup");
@@ -217,5 +214,4 @@ class Home1 extends Scene {
     }
   }
 }
-
 export default Home1;

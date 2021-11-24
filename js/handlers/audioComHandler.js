@@ -1,4 +1,4 @@
-import { snackbar, socket } from "../main";
+import { snackbar, socket, stats } from "../main";
 
 export const registerAudioChatListener = (audioChatPopup) => {
   socket.on("play-audio", (data) => {
@@ -20,6 +20,6 @@ export const registerAudioChatListener = (audioChatPopup) => {
       "sad"
     );
     snackbar.show();
-    audioChatPopup.close();
+    stats.incrementExp(10);
   });
 };

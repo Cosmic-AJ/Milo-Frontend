@@ -2,7 +2,9 @@ import { baseURL } from "../../constants";
 import moneyIcon from "../../../icons/money.png";
 
 class Stats {
-  constructor({ avatar, username, exp, money }) {
+  constructor() {}
+
+  init({ avatar, username, exp, money }) {
     this.avatar = avatar;
     this.username = username;
     this.max = 100;

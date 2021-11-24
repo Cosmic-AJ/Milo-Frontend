@@ -4,11 +4,13 @@ import Home from "./scenes/Home";
 import io from "socket.io-client";
 import Home1 from "./scenes/Home1";
 import Snackbar from "./ui/Alerts/Snackbar";
-import Leaderboard from "./ui/Popup/Leaderboard";
-import AudioChatPopup from "./ui/Popup/AudioChatPopup";
+import Stats from "./ui/Alerts/Stats";
+// import GamePicker from "./ui/Popup/GamePicker";
+// import Leaderboard from "./ui/Popup/Leaderboard";
+// import AudioChatPopup from "./ui/Popup/AudioChatPopup";
 
 export let state = {};
-
+export const stats = new Stats();
 export const setState = (update) => {
   state = update;
 };
@@ -42,6 +44,9 @@ const config = {
 // audioPopup.show();
 // const leaderboard = new Leaderboard("Dinosaur");
 // leaderboard.show();
+
+// const gamePicker = new GamePicker();
+// gamePicker.show();
 
 const game = new Phaser.Game(config);
 game.scene.add("Home", Home);

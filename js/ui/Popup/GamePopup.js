@@ -7,10 +7,6 @@ class GamePopup extends Popup {
     this.gameType = gameType;
   }
 
-  setGameType(gameType) {
-    this.gameType = gameType;
-  }
-
   show() {
     if (!this.isOpen) {
       this.makeDOMElements();

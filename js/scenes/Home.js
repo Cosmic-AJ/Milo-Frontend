@@ -7,7 +7,7 @@ import {
 } from "../handlers/movementHandler";
 import { socket, state } from "../main";
 import CommDialog from "../ui/creatorFunctions/createCommDialog";
-import GamePopup from "../ui/Popup/GamePopup";
+import GamePicker from "../ui/Popup/GamePicker";
 import ShopPopup from "../ui/Popup/ShopPopup";
 import { generateAnims } from "../utils/generateAnims";
 
@@ -31,7 +31,7 @@ class Home extends Scene {
   create() {
     this.commDialog = new CommDialog();
     this.shop = new ShopPopup();
-    this.gamePopup = new GamePopup();
+    this.gamePicker = new GamePicker();
     //Initialisation of loaded tilesets and json files
     const map = this.make.tilemap({
       key: "map",
@@ -73,21 +73,20 @@ class Home extends Scene {
     this.player.setPushable(false);
     this.physics.add.collider(this.player, this.worldLayer);
     this.physics.add.collider(this.player, ticTacToe, () => {
-      this.gamePopup.setGameType("tictactoe");
-      this.gamePopup.show();
+      this.gamePicker.show();
     });
-    this.physics.add.collider(this.player, mathGame, () => {
-      this.gamePopup.setGameType("mathgame");
-      this.gamePopup.show();
-    });
-    this.physics.add.collider(this.player, dinosaurGame, () => {
-      this.gamePopup.setGameType("dinosaurgame");
-      this.gamePopup.show();
-    });
-    this.physics.add.collider(this.player, memoryGame, () => {
-      this.gamePopup.setGameType("memorygame");
-      this.gamePopup.show();
-    });
+    // this.physics.add.collider(this.player, mathGame, () => {
+    //   this.gamePopup.setGameType("mathgame");
+    //   this.gamePopup.show();
+    // });
+    // this.physics.add.collider(this.player, dinosaurGame, () => {
+    //   this.gamePopup.setGameType("dinosaurgame");
+    //   this.gamePopup.show();
+    // });
+    // this.physics.add.collider(this.player, memoryGame, () => {
+    //   this.gamePopup.setGameType("memorygame");
+    //   this.gamePopup.show();
+    // });
     this.physics.add.collider(this.player, interactive, () => {
       this.shop.show();
     });

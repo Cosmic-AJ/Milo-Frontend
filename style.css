@@ -503,7 +503,7 @@ input[type="button"]:hover {
 
 .game-frame {
   width: 100%;
-  height: 80vh;
+  height: 60vh;
 }
 
 .stats-container {
@@ -694,7 +694,7 @@ input[type="button"]:hover {
 .player-list {
   padding: 1rem;
   width: 100%;
-  height: 20rem;
+  height: 28rem;
   overflow-y: scroll;
 }
 
@@ -729,4 +729,50 @@ input[type="button"]:hover {
 
 .leaderboard-stub > .rank strong {
   font-size: 1.4rem;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.game-container {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+.game-container:hover {
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 4px 12px;
+}
+
+.game-img-name > img {
+  display: block;
+  margin: 0 auto;
+  height: 5rem;
+  width: 5rem;
+}
+
+.game-img-name > .game-name {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.game-container > button {
+  background: none;
+  border: solid 1px var(--text);
+  border-radius: var(--border-radius);
+  margin: 0.75rem 0.5rem 0;
+  padding: 0.4rem 0;
+}
+.game-container > button:hover {
+  background: var(--bg-highlight);
+}
+
+.game-container > button > img {
+  width: 40%;
 }
