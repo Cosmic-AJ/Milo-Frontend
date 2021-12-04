@@ -6,7 +6,7 @@ The repository uses Vite JS for serving and bundling the project.
 git clone https://github.com/Adithya31101/Milo-Frontend.git
 
 npm install
-npm run dev # to run the development server
+npm run dev # to run development server
 ```
 
 This should start a local server at localhost:3000. 
